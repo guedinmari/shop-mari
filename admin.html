@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Shop Mari</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-beige-100 text-gray-800">
+
+<div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-lg border border-blue-200">
+<h1 class="text-3xl font-extrabold text-center mb-6 text-blue-700">Painel Administrativo</h1>
+
+<!-- Login -->
+<div id="loginDiv" class="space-y-4">
+<p class="text-center text-gray-600">Área exclusiva para administrador</p>
+<input id="adminPassword" type="password" placeholder="Digite a senha" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+<button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-3 rounded-xl shadow-md transition">Entrar</button>
+</div>
+
+<!-- Painel Admin -->
+<div id="adminDiv" style="display:none;" class="space-y-6">
+<div class="text-center">
+<h2 class="text-2xl font-bold text-blue-800 mb-2">Gerenciar Produtos</h2>
+<p class="text-sm text-gray-600">Adicione, renomeie ou remova produtos</p>
+</div>
+
+<div class="space-y-3">
+<input id="productName" type="text" placeholder="Nome do produto" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+<input id="productLink" type="text" placeholder="Link do produto da Shopee" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+<input id="productImage" type="text" placeholder="URL da imagem (opcional)" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+<input id="productCategory" type="text" placeholder="Categoria do produto" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+<p class="text-xs text-gray-500">Pressione <b>Enter</b> no campo de link para adicionar o produto. Se a categoria não existir, será criada automaticamente.</p>
+</div>
+
+<!-- Lista -->
+<div id="productList" class="space-y-2 bg-blue-50 p-3 rounded-lg border border-blue-100"></div>
+
+<button onclick="logout()" class="w-full mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold p-3 rounded-xl shadow-md transition">Sair</button>
+</div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

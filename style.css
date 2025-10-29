@@ -1,0 +1,61 @@
+:root {
+  --lapislazuli: #1a3d7c;
+  --beige-pastel: #f5f5dc;
+}
+
+body {
+  background-color: var(--beige-pastel);
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.text-lapislazuli {
+  color: var(--lapislazuli);
+}
+
+/* Cards dos produtos */
+.card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(26,61,124,0.4);
+}
+
+/* Botões nos cards */
+.card a {
+  background-color: var(--lapislazuli);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.card a:hover {
+  background-color: #14315a;
+}
+
+/* Logo de fundo com desfoque */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  transform: translate(-50%, -50%);
+  background: url('logo.png.jpeg') no-repeat center center;
+  background-size: contain;
+  opacity: 0.15;
+  filter: blur(6px);
+  z-index: -1;
+  pointer-events: none;
+}

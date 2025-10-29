@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Mari - Achadinhos Especiais</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #f9f7f3, #e8edf6);
+      font-family: 'Poppins', sans-serif;
+    }
+    /* Botão com efeito pulsar */
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 230, 150, 0.7); }
+      50% { transform: scale(1.05); box-shadow: 0 0 20px 10px rgba(255, 230, 150, 0.3); }
+    }
+    /* Mascote flutuante */
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- CABEÇALHO COM LOGO -->
+  <header class="bg-blue-800 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Logo + Título -->
+      <div class="flex items-center space-x-3">
+        <img src="logo.png" alt="Logo Shop Mari" class="w-10 h-10 object-contain">
+        <h1 class="text-2xl font-bold">Shop Mari</h1>
+      </div>
+      <!-- Botão Admin Secreto -->
+      <div id="adminButtonDiv" class="hidden">
+        <a href="admin.html" class="bg-amber-300 text-blue-900 font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-amber-200 transition">
+          Painel Admin
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER PRINCIPAL -->
+  <section class="relative max-w-6xl mx-auto mt-10 rounded-3xl overflow-hidden shadow-xl bg-gradient-to-r from-blue-800 via-blue-500 to-amber-100">
+    <div class="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 relative z-10">
+      <div class="flex-shrink-0 mb-6 md:mb-0 md:w-1/3">
+        <img src="ChatGPT Image 28 de out. de 2025, 18_08_10.png" alt="Mascotes Shop Mari" class="w-64 drop-shadow-xl float">
+      </div>
+      <div class="text-center md:text-left text-white md:w-2/3 space-y-4">
+        <h2 class="text-4xl md:text-5xl font-extrabold leading-tight drop-shadow-lg">
+          Ofertas <span class="text-amber-200">Imperdíveis</span> ✨
+        </h2>
+        <p class="text-lg md:text-xl text-blue-50 font-medium">
+          Achadinhos Especiais da <span class="font-semibold text-amber-200">Shop Mari</span> — feitos pra você economizar com estilo.
+        </p>
+        <a href="#product-grid" class="inline-block bg-amber-300 text-blue-900 font-semibold px-6 py-3 rounded-xl shadow-md hover:bg-amber-200 hover:scale-105 transition duration-300 pulse">
+          Ver Ofertas Agora
+        </a>
+      </div>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent opacity-70"></div>
+  </section>
+
+  <!-- BARRA DE PESQUISA -->
+  <div class="max-w-6xl mx-auto mt-10 px-6 flex flex-col md:flex-row gap-3 items-center">
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="🔍 Buscar produtos..." 
+      class="flex-1 p-4 rounded-2xl border border-blue-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+    >
+    <select id="categoryFilter" class="p-3 rounded-2xl border border-blue-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+      <option value="">Todas Categorias</option>
+    </select>
+    <button id="clearSearch" class="bg-blue-700 text-white px-4 py-2 rounded-xl hidden">❌</button>
+  </div>
+
+  <!-- ÁREA DE PRODUTOS -->
+  <main id="product-grid" class="max-w-6xl mx-auto py-16 px-6">
+    <h2 class="text-3xl font-bold text-blue-800 mb-10 text-center">🛍️ Achadinhos da Semana</h2>
+    <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="bg-blue-900 text-white text-center py-6 mt-12">
+    <p>&copy; 2025 Shop Mari — Todos os direitos reservados 💙</p>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    const grid = document.getElementById('productsContainer');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const adminButtonDiv = document.getElementById('adminButtonDiv');
+
+    let products = JSON.parse(localStorage.getItem('products')) || [];
+
+    function populateCategories(){
+      const categories = [...new Set(products.map(p => p.category))];
+      categoryFilter.innerHTML = `<option value="">Todas Categorias</option>`;
+      categories.forEach(c=>{
+        const option = document.createElement('option');
+        option.value = c;
+        option.textContent = c;
+        categoryFilter.appendChild(option);
+      });
+    }
+
+    function showProducts(filterText = "", category = ""){
+      grid.innerHTML = "";
+      let filtered = products.filter(p=>{
+        return p.name.toLowerCase().includes(filterText.toLowerCase()) &&
+               (category === "" || p.category === category);
+      });
+      if(filtered.length===0){
+        grid.innerHTML = `<p class="col-span-full text-center text-gray-500">Nenhum produto encontrado 😢</p>`;
+        return;
+      }
+      filtered.forEach(p=>{
+        const card=document.createElement('div');
+        card.className="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden transition transform hover:scale-105";
+        card.innerHTML=`
+          <img src="${p.image}" alt="${p.name}" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <h2 class="font-semibold text-lg mb-2">${p.name}</h2>
+            <a href="${p.link}" target="_blank" class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">
+              Ver na Shopee
+            </a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Inicializa
+    populateCategories();
+    showProducts();
+
+    // Eventos
+    searchInput.addEventListener('input', e=>{
+      const query = e.target.value;
+      const category = categoryFilter.value;
+      showProducts(query, category);
+      document.getElementById('clearSearch').style.display = query ? 'inline-block' : 'none';
+    });
+
+    categoryFilter.addEventListener('change', e=>{
+      showProducts(searchInput.value, e.target.value);
+    });
+
+    document.getElementById('clearSearch').addEventListener('click', ()=>{
+      searchInput.value="";
+      categoryFilter.value="";
+      showProducts();
+      document.getElementById('clearSearch').style.display='none';
+    });
+
+    // Segredo: mostrar botão admin ao digitar "mariadm"
+    let typed = "";
+    document.addEventListener("keydown", (e) => {
+      typed += e.key.toLowerCase();
+      if (typed.includes("mariadm")) {
+        adminButtonDiv.style.display = "block";
+        setTimeout(()=>{typed="";},2000);
+      }
+      if (typed.length>10) typed = typed.slice(-10);
+    });
+  </script>
+
+</body>
+</html>
